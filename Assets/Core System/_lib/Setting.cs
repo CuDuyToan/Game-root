@@ -1,11 +1,5 @@
 ﻿namespace CoreSystem
 {
-    //public interface ISetting
-    //{
-    //    public void LoadData();
-    //    public void SaveData();
-    //}
-
     public abstract class Setting
     {
         public string dataPath { private set; get; }

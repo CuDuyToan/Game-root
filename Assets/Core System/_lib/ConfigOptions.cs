@@ -4,7 +4,7 @@ using CoreSystem.Configuration;
 
 namespace CoreSystem
 {
-    public enum GameSetting
+    public enum ConfigOptions
     {
         Sound,
         Layout,
