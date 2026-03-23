@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace CoreSystem
+namespace CoreSystem.Persistent
 {
     public class GameRoot : MonoBehaviour
     {

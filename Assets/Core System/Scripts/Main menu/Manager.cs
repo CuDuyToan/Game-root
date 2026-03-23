@@ -1,8 +1,5 @@
-using CoreSystem.Configuration;
-using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CoreSystem.MainMenu
 {
