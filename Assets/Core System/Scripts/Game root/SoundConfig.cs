@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace CoreSystem.Configuration
 {
-    public class SoundSetup : Setting
+    public class SoundConfig: Config
     {
-        private float masterVolume = 50f;
-        private bool muteMaster = false;
+        public float masterVolume = 50f;
+        public bool muteMaster = false;
         public float Master => muteMaster ? 0 : masterVolume;
 
-        private float musicVolume = 50f;
-        private bool muteMusic = false;
+        public float musicVolume = 50f;
+        public bool muteMusic = false;
         public float Music => muteMusic ? 0 : musicVolume;
 
-        private float SFXVolume = 50f;
-        private bool muteSFX = false;
+        public float SFXVolume = 50f;
+        public bool muteSFX = false;
         public float SFX => muteSFX ? 0 : SFXVolume;
 
-        private float UIVolume = 50f;
-        private bool muteUI = false;
+        public float UIVolume = 50f;
+        public bool muteUI = false;
         public float UI => muteUI ? 0 : UIVolume;
 
-        private float ambientVolume = 50f;
-        private bool muteAmbient = false;
+        public float ambientVolume = 50f;
+        public bool muteAmbient = false;
         public float Ambient => muteAmbient ? 0 : ambientVolume;
 
         #region set volume value
@@ -64,12 +64,12 @@ namespace CoreSystem.Configuration
 
         #endregion set mute volume
 
-        public SoundSetup()
+        public SoundConfig()
         {
 
         }
 
-        public SoundSetup(string path, SoundData data)
+        public SoundConfig(string path, SoundData data)
         {
             DataPath(path);
             if(data != null) LoadData(data);

@@ -1,6 +1,6 @@
 ﻿namespace CoreSystem
 {
-    public abstract class Setting
+    public abstract class Config
     {
         public string dataPath { private set; get; }
 

@@ -1,19 +1,51 @@
-using CoreSystem.Configuration;
-using CoreSystem.Data;
-using System.Collections.Generic;
-using System.IO;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CoreSystem
 {
     public class GameRoot : MonoBehaviour
     {
         public static GameRoot Instance;
-        public GameSetting gameSetting;
+        private void setSingleton()
+        {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+        }
+
+        [Header("Scene")]
+        [SerializeField] private string mainMenuScene = "Main Menu";
+
+        private void Awake()
+        {
+            setSingleton();
+        }
 
         private void Start()
         {
-            gameSetting = GameSetting.Instance;
+            //SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Additive);
+            LoadMainMenu();
+        }
+
+        public void LoadMainMenu()
+        {
+            StartCoroutine(LoadMainMenuAsync());
+        }
+
+        private IEnumerator LoadMainMenuAsync()
+        {
+            AsyncOperation op = SceneManager.LoadSceneAsync(mainMenuScene, LoadSceneMode.Additive);
+
+            while (!op.isDone)
+                yield return null;
+
+            Scene scene = SceneManager.GetSceneByName(mainMenuScene);
+            SceneManager.SetActiveScene(scene);
         }
     }
 

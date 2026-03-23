@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CoreSystem.Configuration
 {
-    public class LayoutSetup : Setting
+    public class LayoutConfig: Config
     {
         private JoystickType joystickType = JoystickType.Dynamic;
         public JoystickType JoystickType => joystickType;
@@ -22,11 +22,11 @@ namespace CoreSystem.Configuration
         private float transparencyUI = 100;
         public float TransparencyUI => transparencyUI;
 
-        public LayoutSetup()
+        public LayoutConfig()
         {
         }
 
-        public LayoutSetup(string path, LayoutData data)
+        public LayoutConfig(string path, LayoutData data)
         {
             DataPath(path);
 
@@ -52,5 +52,32 @@ namespace CoreSystem.Configuration
             data.transparencyUI = transparencyUI;
             return data;
         }
+
+        #region set value
+        public void setJoystickType(JoystickType type)
+        {
+            joystickType = type;
+        }
+
+        public void setJoystickPos(Vector2Data value)
+        {
+            this.joystickPos = value;
+        }
+
+        public void setActiveZone(Vector2Data value)
+        {
+            this.activeZone = value; 
+        }
+
+        public void setJoystickSize(float value)
+        {
+            this.joystickSize = value;
+        }
+
+        public void setTransparencyUI(float value)
+        {
+            this.transparencyUI = value;
+        }
+        #endregion set value
     }
 }
