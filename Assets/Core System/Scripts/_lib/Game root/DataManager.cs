@@ -85,7 +85,12 @@ namespace CoreSystem.Persistent
         }
         #endregion config
 
+        #region slot world
+        private readonly Dictionary<int, MetaData> slotWorlds;
 
-      
+
+
+        #endregion slot world
+
     }
 }

@@ -1,12 +1,8 @@
 ﻿using CoreSystem.Data;
-using CoreSystem.Persistent;
-using System.Collections.Generic;
-using System.IO;
+using CoreSystem.Configuration;
 using UnityEngine;
-using UnityEngine.UI;
-using static UnityEngine.Audio.GeneratorInstance;
 
-namespace CoreSystem.Configuration
+namespace CoreSystem.Persistent
 {
 	public class GameConfiguration : MonoBehaviour
 	{

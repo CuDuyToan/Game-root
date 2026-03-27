@@ -42,6 +42,7 @@ namespace CoreSystem.MainMenu
 
         private void loadSetting()
         {
+            if (!dataManager) return;
             loadSoundData(dataManager.getSound());
         }
 

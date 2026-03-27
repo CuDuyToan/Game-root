@@ -1978,6 +1978,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d9553ab519ccc458e3cb0999ba4c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.MainMenu.Manager
+  reviewMap: {fileID: 1319342792}
+  targetValue: 0.61
+  speed: 5
+  buttons:
+  - {fileID: 1545302612}
+  - {fileID: 230804164}
+  - {fileID: 1785630277}
 --- !u!1 &192637952
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,7 +2445,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 230804167}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 164973052}
+        m_TargetAssemblyTypeName: CoreSystem.MainMenu.Manager, Assembly-CSharp
+        m_MethodName: ReviewMap
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 230804164}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &230804167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7877,6 +7896,54 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1319342792}
+        m_TargetAssemblyTypeName: UnityEngine.UI.Slider, UnityEngine.UI
+        m_MethodName: set_value
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1545302612}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 230804164}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1785630277}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1049767038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11312,7 +11379,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1545302615}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 164973052}
+        m_TargetAssemblyTypeName: CoreSystem.MainMenu.Manager, Assembly-CSharp
+        m_MethodName: ReviewMap
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1545302612}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1545302615
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12954,7 +13033,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1785630280}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 164973052}
+        m_TargetAssemblyTypeName: CoreSystem.MainMenu.Manager, Assembly-CSharp
+        m_MethodName: ReviewMap
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1785630277}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1785630280
 MonoBehaviour:
   m_ObjectHideFlags: 0
