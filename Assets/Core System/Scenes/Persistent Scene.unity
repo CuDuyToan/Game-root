@@ -163,6 +163,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0548a78653286ac49a28560cab51dd25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.Configuration.GameSetting
+--- !u!1 &539117600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 539117601}
+  - component: {fileID: 539117602}
+  m_Layer: 0
+  m_Name: SaveSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &539117601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539117600}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 742.3566, y: 434.86508, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &539117602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539117600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e02801c79760c242b155fb0d5503652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SaveSystem
+  configFolder: Configuration
+  soundFile: Sound
+  layoutFile: Layout
 --- !u!1 &740239132
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,6 +219,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 740239133}
+  - component: {fileID: 740239134}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -194,6 +242,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &740239134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740239132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a340fa73f47bd440b7debc50ed2ad5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoreSystem.Persistent.DataManager
 --- !u!1 &1881625246
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,3 +306,4 @@ SceneRoots:
   - {fileID: 1881625247}
   - {fileID: 310725258}
   - {fileID: 740239133}
+  - {fileID: 539117601}

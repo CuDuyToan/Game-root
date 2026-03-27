@@ -25,53 +25,13 @@ namespace CoreSystem.Configuration
         public bool muteAmbient = false;
         public float Ambient => muteAmbient ? 0 : ambientVolume;
 
-        #region set volume value
-
-        public void setMasterVolume(float value)
-        {
-            masterVolume = value;
-        }
-
-        public void setMusicVolume(float value)
-        {
-            musicVolume = value;
-        }
-
-        public void setSFXVolume(float value)
-        {
-            SFXVolume = value;
-        }
-
-        public void setUIVolume(float value)
-        {
-            UIVolume = value;
-        }
-
-        public void setAmbientVolume(float value)
-        {
-            ambientVolume = value;
-        }
-
-        #endregion set volume value
-
-        #region set mute volume
-
-        public void setMuteMaster(bool value) { muteMaster = value; }
-        public void setMuteMusic(bool value) { muteMusic = value; }
-        public void setMuteSFX(bool value) { muteSFX = value; }
-        public void setMuteUI(bool value) { muteUI = value; }
-        public void setMuteAmbient(bool value) { muteAmbient = value; }
-
-        #endregion set mute volume
-
         public SoundConfig()
         {
 
         }
 
-        public SoundConfig(string path, SoundData data)
+        public SoundConfig(SoundData data)
         {
-            DataPath(path);
             if(data != null) LoadData(data);
         }
 
@@ -98,6 +58,12 @@ namespace CoreSystem.Configuration
             data.SFXVolume = SFXVolume;
             data.UIVolume = UIVolume;
             data.ambientVolume = ambientVolume;
+
+            data.muteMaster = muteMaster;
+            data.muteMusic = muteMusic;
+            data.muteSFX = muteSFX;
+            data.muteUI = muteUI;
+            data.muteAmbient = muteAmbient;
             return data;
         }
 

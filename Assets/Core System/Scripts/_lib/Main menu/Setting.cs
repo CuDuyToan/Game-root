@@ -1,4 +1,5 @@
 using CoreSystem.Configuration;
+using CoreSystem.Persistent;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ namespace CoreSystem.MainMenu
         }
 
         private GameConfiguration configuration;
+        private DataManager dataManager;
 
         private void Awake()
         {
@@ -29,23 +31,18 @@ namespace CoreSystem.MainMenu
         private void Start()
         {
             configuration = GameConfiguration.Instance;
+            dataManager = DataManager.Instance;
             loadSetting();
         }
 
         public void saveSetting()
         {
-            configuration.Save();
+            dataManager.SaveConfig();
         }
 
         private void loadSetting()
         {
-            if (!configuration) return;
-
-            if (configuration.configurations.TryGetValue(ConfigOptions.Sound, out Config config))
-            {
-                SoundConfig soundConfig = config as SoundConfig;
-                loadSoundData(soundConfig);
-            }
+            loadSoundData(dataManager.getSound());
         }
 
         private void loadSoundData(SoundConfig config)
