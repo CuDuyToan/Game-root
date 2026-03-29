@@ -1,3 +1,5 @@
+using CoreSystem.Data;
+using CoreSystem.Persistent;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -21,11 +23,18 @@ namespace CoreSystem.MainMenu
             Instance = this;
         }
 
-        //private GameConfiguration configuration;
+        private DataManager dataManager;
 
         private void Awake()
         {
             setSingleton();
+        }
+
+        private void Start()
+        {
+            dataManager = DataManager.Instance;
+            LoadSlotData();
+            dataManager.SaveSlotData();
         }
 
         public void Exit()
@@ -42,8 +51,9 @@ namespace CoreSystem.MainMenu
         [SerializeField] private Slider reviewMap;
         [SerializeField] private float targetValue = 1f;
         [SerializeField] private float speed = 1f;
-        [SerializeField] private List<GameObject> buttons;
+        [SerializeField] private List<GameObject> slots;
         private Coroutine currentRoutine;
+        #region preview map
         public void ReviewMap(GameObject obj)
         {
             if (currentRoutine != null) return;
@@ -54,7 +64,7 @@ namespace CoreSystem.MainMenu
 
         private void SetActiveButton(GameObject obj)
         {
-            foreach (var item in buttons)
+            foreach (var item in slots)
             {
                 if (obj == item) continue;
                 bool active = !item.activeInHierarchy;
@@ -78,6 +88,24 @@ namespace CoreSystem.MainMenu
                 yield return null;
             }
         }
+        #endregion preview map
+
+        #region load slots
+        [SerializeField] private List<SlotSetup> slotSetups;
+        public void LoadSlotData()
+        {
+            if (dataManager == null) return;
+            int slot = 1;
+            foreach (var item in slotSetups)
+            {
+                MetaData data = dataManager.GetSlotWorld(slot);
+                if (data == null) continue;
+                item.Setup(data);
+            }
+        }
+
+
+        #endregion load slots
 
         #endregion Load game menu
     }

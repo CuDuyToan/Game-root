@@ -71,8 +71,8 @@ namespace CoreSystem.Persistent
 
         [Space(5)]
 
-        [SerializeField] private string soundFile = "Sound";
-        [SerializeField] private string layoutFile = "Layout";
+        [SerializeField] private string soundFile = "sound_config";
+        [SerializeField] private string layoutFile = "layout_config";
 
         public void SaveSoundConfig(SoundData data)
         {
@@ -102,8 +102,21 @@ namespace CoreSystem.Persistent
 
         #region slot world
         [Header("Slot World")]
-        [SerializeField] private string WorldFolder = "World";
+        [SerializeField] private string worldFolder = "World";
+        [SerializeField] private string slotsFile = "slots";
 
+        public void SaveSlotWorld(SlotData data)
+        {
+            string json = JsonUtility.ToJson(data);
+            string path = Path.Combine(savePath, worldFolder, slotsFile);
+
+            SaveData(json, path);
+        }
+
+        public string LoadSlotData()
+        {
+            return LoadData(worldFolder, slotsFile);
+        }
 
         #endregion slot world
     }

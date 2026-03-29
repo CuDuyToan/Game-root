@@ -1,5 +1,6 @@
 using CoreSystem.Configuration;
 using CoreSystem.Data;
+using CoreSystem.MainMenu;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -31,6 +32,7 @@ namespace CoreSystem.Persistent
         {
             saveSystem = SaveSystem.Instance;
             InitConfig();
+            InitSlotData();
         }
 
 
@@ -86,10 +88,39 @@ namespace CoreSystem.Persistent
         #endregion config
 
         #region slot world
-        private readonly Dictionary<int, MetaData> slotWorlds;
+        private SlotData slotData;
+        private readonly Dictionary<int, MetaData> slotWorlds = new Dictionary<int, MetaData>();
+        private void InitSlotData()
+        {
+            slotData = JsonUtility.FromJson<SlotData>(saveSystem.LoadSlotData());
 
+            if(slotData == null)
+            {
+                slotData = new SlotData();
+                slotData.slots = new List<MetaData>();
+            }
 
+            foreach (var item in slotData.slots)
+            {
+                if (item == null) continue;
+                slotWorlds.TryAdd(item.slot, item);
+            }
+        }
 
+        public MetaData GetSlotWorld(int slot)
+        {
+            if (slotWorlds.TryGetValue(slot, out MetaData metaData))
+            {
+                return metaData;
+            }
+            return null;
+        }
+
+        public void SaveSlotData()
+        {
+            if (slotData == null) return;
+            saveSystem.SaveSlotWorld(slotData);
+        }
         #endregion slot world
 
     }

@@ -208,8 +208,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SaveSystem
   configFolder: Configuration
-  soundFile: Sound
-  layoutFile: Layout
+  soundFile: sound_config
+  layoutFile: layout_config
+  worldFolder: World
+  slotsFile: slots
 --- !u!1 &740239132
 GameObject:
   m_ObjectHideFlags: 0
