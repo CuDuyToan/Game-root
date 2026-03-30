@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace CoreSystem.Persistent
 {
-	public class GameConfiguration : MonoBehaviour
-	{
+    public class GameConfiguration : MonoBehaviour
+    {
         public static GameConfiguration Instance { get; private set; }
 
         private void setSingleton()
@@ -19,37 +19,23 @@ namespace CoreSystem.Persistent
             Instance = this;
         }
 
-        private DataManager dataManager;
-
-        private string dataPath = string.Empty;
-
-        private string layoutPath;
-        private string soundPath;
-
-        private void setPath()
-        {
-            dataPath = Application.persistentDataPath + "/setting";
-
-            layoutPath = dataPath + "/layout_settings";
-            soundPath = dataPath + "/sound_settings";
-        }
+        private GameDataService dataService;
 
         private void Awake()
         {
             setSingleton();
-            setPath();
         }
 
         private void Start()
         {
-            dataManager = DataManager.Instance;
+            dataService = GameDataService.Instance;
         }
 
         #region sound
         public void setMasterVolume(float value)
         {
-            SoundConfig config = dataManager.getSound();
-            if(config != null)
+            SoundData config = dataService.getSound();
+            if (config != null)
             {
                 config.masterVolume = value;
             }
@@ -57,7 +43,7 @@ namespace CoreSystem.Persistent
 
         public void setMuteMaster(bool value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.muteMaster = value;
@@ -66,7 +52,7 @@ namespace CoreSystem.Persistent
 
         public void setMusicVolume(float value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.musicVolume = value;
@@ -74,7 +60,7 @@ namespace CoreSystem.Persistent
         }
         public void setMuteMusic(bool value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.muteMusic = value;
@@ -83,7 +69,7 @@ namespace CoreSystem.Persistent
 
         public void setSFXVolume(float value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.SFXVolume = value;
@@ -91,7 +77,7 @@ namespace CoreSystem.Persistent
         }
         public void setMuteSFX(bool value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.muteSFX = value;
@@ -100,7 +86,7 @@ namespace CoreSystem.Persistent
 
         public void setUIVolume(float value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.UIVolume = value;
@@ -108,7 +94,7 @@ namespace CoreSystem.Persistent
         }
         public void setMuteUI(bool value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.muteUI = value;
@@ -117,7 +103,7 @@ namespace CoreSystem.Persistent
 
         public void setAmbientVolume(float value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.ambientVolume = value;
@@ -126,7 +112,7 @@ namespace CoreSystem.Persistent
 
         public void setMuteAmbient(bool value)
         {
-            SoundConfig config = dataManager.getSound();
+            SoundData config = dataService.getSound();
             if (config != null)
             {
                 config.muteAmbient = value;
@@ -138,7 +124,7 @@ namespace CoreSystem.Persistent
         #region layout
         public void setJoystickType(JoystickType value)
         {
-            LayoutConfig config = dataManager.getLayout();
+            LayoutData config = dataService.getLayout();
             if (config != null)
             {
                 config.joystickType = value;
@@ -147,7 +133,7 @@ namespace CoreSystem.Persistent
 
         public void setJoystickPos(Vector2Data value)
         {
-            LayoutConfig config = dataManager.getLayout();
+            LayoutData config = dataService.getLayout();
             if (config != null)
             {
                 config.joystickPos = value;
@@ -156,7 +142,7 @@ namespace CoreSystem.Persistent
 
         public void setActiveZone(Vector2Data value)
         {
-            LayoutConfig config = dataManager.getLayout();
+            LayoutData config = dataService.getLayout();
             if (config != null)
             {
                 config.activeZone = value;
@@ -165,7 +151,7 @@ namespace CoreSystem.Persistent
 
         public void setJoystickSize(float value)
         {
-            LayoutConfig config = dataManager.getLayout();
+            LayoutData config = dataService.getLayout();
             if (config != null)
             {
                 config.joystickSize = value;
@@ -174,7 +160,7 @@ namespace CoreSystem.Persistent
 
         public void setTransparencyUI(float value)
         {
-            LayoutConfig config = dataManager.getLayout();
+            LayoutData config = dataService.getLayout();
             if (config != null)
             {
                 config.transparencyUI = value;

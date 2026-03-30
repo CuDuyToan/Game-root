@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace CoreSystem.Persistent
 {
-    public class SaveSystem : MonoBehaviour
+    public class FileDataHandler: MonoBehaviour
     {
-        public static SaveSystem Instance;
+        public static FileDataHandler Instance;
         private void setSingleton()
         {
             if (Instance != null && Instance != this)
@@ -68,56 +68,72 @@ namespace CoreSystem.Persistent
         #region config
         [Header("Config")]
         [SerializeField] private string configFolder = "Configuration";
-
         [Space(5)]
+        [SerializeField] private string configFile = "config";
 
-        [SerializeField] private string soundFile = "sound_config";
-        [SerializeField] private string layoutFile = "layout_config";
-
-        public void SaveSoundConfig(SoundData data)
+        public void SaveConfig(ConfigData data)
         {
             string json = JsonUtility.ToJson(data);
-            string path = Path.Combine(savePath, configFolder, soundFile);
-
-            SaveData(json, path);
-        }
-        public void SaveLayoutConfig(LayoutData data)
-        {
-            string json = JsonUtility.ToJson(data);
-            string path = Path.Combine(savePath, configFolder, layoutFile);
-
+            string path = Path.Combine(savePath, configFolder, configFile);
             SaveData(json, path);
         }
 
-        public string LoadSoundData()
+        public ConfigData LoadConfig()
         {
-            return LoadData(configFolder, soundFile);
-        }
-
-        public string LoadLayoutData()
-        {
-            return LoadData(configFolder, layoutFile);
+            string json = LoadData(configFolder, configFile);
+            ConfigData data;
+            if (string.IsNullOrEmpty(json))
+            {
+                data = new ConfigData();
+            }
+            else
+            {
+                data = JsonUtility.FromJson<ConfigData>(json);
+                if (data == null)
+                {
+                    data = new ConfigData();
+                }
+            }
+            return data;
         }
         #endregion config
 
         #region slot world
         [Header("Slot World")]
         [SerializeField] private string worldFolder = "World";
+        [Space(5)]
         [SerializeField] private string slotsFile = "slots";
 
-        public void SaveSlotWorld(SlotData data)
+        public SlotsData LoadSlotsData()
+        {
+            string json = LoadData(worldFolder, slotsFile);
+
+            SlotsData data;
+
+            if (string.IsNullOrEmpty(json))
+            {
+                data = new SlotsData();
+            }
+            else
+            {
+                data = JsonUtility.FromJson<SlotsData>(json);
+
+                if (data == null)
+                {
+                    data = new SlotsData();
+                }
+            }
+
+            return data;
+        }
+
+        public void SaveSlotWorld(SlotsData data)
         {
             string json = JsonUtility.ToJson(data);
             string path = Path.Combine(savePath, worldFolder, slotsFile);
 
             SaveData(json, path);
         }
-
-        public string LoadSlotData()
-        {
-            return LoadData(worldFolder, slotsFile);
-        }
-
         #endregion slot world
     }
 }

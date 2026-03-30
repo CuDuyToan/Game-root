@@ -3,20 +3,20 @@ namespace CoreSystem.Data
     [System.Serializable]
     public class SoundData
     {
-        public float masterVolume;
-        public bool muteMaster;
+        public float masterVolume = 50f;
+        public bool muteMaster = false;
 
-        public float musicVolume;
-        public bool muteMusic;
+        public float musicVolume = 50f;
+        public bool muteMusic = false;
 
-        public float SFXVolume;
-        public bool muteSFX;
+        public float SFXVolume = 50f;
+        public bool muteSFX = false;
 
-        public float UIVolume;
-        public bool muteUI;
+        public float UIVolume = 50f;
+        public bool muteUI = false;
 
-        public float ambientVolume;
-        public bool muteAmbient;
+        public float ambientVolume = 50f;
+        public bool muteAmbient = false;
     }
 }
 

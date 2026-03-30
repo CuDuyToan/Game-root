@@ -23,7 +23,7 @@ namespace CoreSystem.MainMenu
             Instance = this;
         }
 
-        private DataManager dataManager;
+        private GameDataService dataService;
 
         private void Awake()
         {
@@ -32,18 +32,18 @@ namespace CoreSystem.MainMenu
 
         private void Start()
         {
-            dataManager = DataManager.Instance;
+            dataService = GameDataService.Instance;
             LoadSlotData();
-            dataManager.SaveSlotData();
+            if (dataService) dataService.SaveSlotData();
         }
 
         public void Exit()
         {
-            #if UNITY_EDITOR
-                EditorApplication.isPlaying = false;
-            #else
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
                 Application.Quit();
-            #endif
+#endif
         }
 
         #region Load game menu
@@ -94,18 +94,25 @@ namespace CoreSystem.MainMenu
         [SerializeField] private List<SlotSetup> slotSetups;
         public void LoadSlotData()
         {
-            if (dataManager == null) return;
+            if (dataService == null) return;
             int slot = 1;
             foreach (var item in slotSetups)
             {
-                MetaData data = dataManager.GetSlotWorld(slot);
+                MetaData data = dataService.GetSlotWorld(slot);
                 if (data == null) continue;
                 item.Setup(data);
             }
         }
-
-
         #endregion load slots
+
+        #region new game
+        public void NewGame()
+        {
+
+        }
+
+
+        #endregion new game
 
         #endregion Load game menu
     }

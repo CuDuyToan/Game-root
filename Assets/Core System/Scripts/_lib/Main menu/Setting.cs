@@ -1,4 +1,5 @@
 using CoreSystem.Configuration;
+using CoreSystem.Data;
 using CoreSystem.Persistent;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace CoreSystem.MainMenu
         }
 
         private GameConfiguration configuration;
-        private DataManager dataManager;
+        private GameDataService dataService;
 
         private void Awake()
         {
@@ -31,28 +32,31 @@ namespace CoreSystem.MainMenu
         private void Start()
         {
             configuration = GameConfiguration.Instance;
-            dataManager = DataManager.Instance;
+            dataService = GameDataService.Instance;
             loadSetting();
         }
 
         public void saveSetting()
         {
-            dataManager.SaveConfig();
+            dataService.SaveConfigData();
         }
 
         private void loadSetting()
         {
-            if (!dataManager) return;
-            loadSoundData(dataManager.getSound());
+            if (!dataService) return;
+            loadConfigData(dataService.GetConfigData());
         }
 
-        private void loadSoundData(SoundConfig config)
+        private void loadConfigData(ConfigData config)
         {
-            loadMasterValue(config.masterVolume, config.muteMaster);
-            loadMusicValue(config.musicVolume, config.muteMusic);
-            loadSFXValue(config.SFXVolume, config.muteSFX);
-            loadUIValue(config.UIVolume, config.muteUI);
-            loadAmbientValue(config.ambientVolume, config.muteAmbient);
+            SoundData soundConfig = config.soundData;
+
+
+            loadMasterValue(soundConfig.masterVolume, soundConfig.muteMaster);
+            loadMusicValue(soundConfig.musicVolume, soundConfig.muteMusic);
+            loadSFXValue(soundConfig.SFXVolume, soundConfig.muteSFX);
+            loadUIValue(soundConfig.UIVolume, soundConfig.muteUI);
+            loadAmbientValue(soundConfig.ambientVolume, soundConfig.muteAmbient);
         }
 
         #region set value
@@ -175,8 +179,5 @@ namespace CoreSystem.MainMenu
         #endregion layout
 
         #endregion load
-
-
-
     }
 }

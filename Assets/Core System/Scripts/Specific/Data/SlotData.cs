@@ -3,7 +3,7 @@
 namespace CoreSystem.Data
 {
     [System.Serializable]
-    public class SlotData
+    public class SlotsData
     {
         public List<MetaData> slots;
     }
