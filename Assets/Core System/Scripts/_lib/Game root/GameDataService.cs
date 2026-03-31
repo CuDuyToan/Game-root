@@ -22,7 +22,7 @@ namespace CoreSystem.Persistent
             Instance = this;
         }
 
-        private FileDataHandler fileDataHandler;
+        private FileService fileService;
 
         private void Awake()
         {
@@ -31,9 +31,9 @@ namespace CoreSystem.Persistent
 
         private void Start()
         {
-            fileDataHandler = FileDataHandler.Instance;
+            fileService = FileService.Instance;
             LoadConfigData();
-            InitSlotData();
+            LoadSlotData();
         }
 
 
@@ -42,14 +42,14 @@ namespace CoreSystem.Persistent
 
         private void LoadConfigData()
         {
-            configData = fileDataHandler.LoadConfig();
+            configData = fileService.LoadConfig();
             if(configData == null) configData = new ConfigData();
         }
 
         public void SaveConfigData()
         {
             if (configData == null) LoadConfigData();
-            fileDataHandler.SaveConfig(configData);
+            fileService.SaveConfig(configData);
         }
         public ConfigData GetConfigData()
         {
@@ -74,20 +74,21 @@ namespace CoreSystem.Persistent
         #region slot world
         private SlotsData slotData;
         private readonly Dictionary<int, MetaData> slotWorlds = new Dictionary<int, MetaData>();
-        private void InitSlotData()
+        private void LoadSlotData()
         {
-            slotData = fileDataHandler.LoadSlotsData();
+            slotData = fileService.LoadSlotsData();
 
             if (slotData == null)
             {
                 slotData = new SlotsData();
                 slotData.slots = new List<MetaData>();
             }
-
+            int slotIndex = 0;
             foreach (var item in slotData.slots)
             {
                 if (item == null) continue;
-                slotWorlds.TryAdd(item.slot, item);
+                slotIndex++;
+                slotWorlds.TryAdd(slotIndex, item);
             }
         }
 
@@ -110,10 +111,20 @@ namespace CoreSystem.Persistent
             }
         }
 
+        public void DeleteGame(int slot)
+        {
+            if (slotWorlds.TryGetValue(slot, out MetaData metaData))
+            {
+                slotData.slots.Remove(metaData);
+                slotWorlds.Remove(slot);
+                fileService.DeleteSlot(slot-1);
+            }
+        }
+
         public void SaveSlotData()
         {
             if (slotData == null) return;
-            fileDataHandler.SaveSlotWorld(slotData);
+            fileService.SaveSlotWorld(slotData);
         }
         #endregion slot world
 

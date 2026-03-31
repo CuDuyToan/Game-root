@@ -1,12 +1,13 @@
 using CoreSystem.Data;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 namespace CoreSystem.Persistent
 {
-    public class FileDataHandler: MonoBehaviour
+    public class FileService: MonoBehaviour
     {
-        public static FileDataHandler Instance;
+        public static FileService Instance;
         private void setSingleton()
         {
             if (Instance != null && Instance != this)
@@ -113,6 +114,7 @@ namespace CoreSystem.Persistent
             if (string.IsNullOrEmpty(json))
             {
                 data = new SlotsData();
+                data.slots = new List<MetaData>();
             }
             else
             {
@@ -121,14 +123,33 @@ namespace CoreSystem.Persistent
                 if (data == null)
                 {
                     data = new SlotsData();
+                    data.slots = new List<MetaData>();
                 }
             }
 
             return data;
         }
 
+        public void DeleteSlot(int slotIndex)
+        {
+            SlotsData data = LoadSlotsData();
+            if (slotIndex >= 0 && slotIndex < data.slots.Count)
+            {
+                data.slots.RemoveAt(slotIndex);
+                SaveSlotWorld(data);
+            }
+            
+        }
+
         public void SaveSlotWorld(SlotsData data)
         {
+            int index = 0;
+            foreach (var item in data.slots)
+            {
+                index++;
+                item.slot = index;
+            }
+
             string json = JsonUtility.ToJson(data);
             string path = Path.Combine(savePath, worldFolder, slotsFile);
 

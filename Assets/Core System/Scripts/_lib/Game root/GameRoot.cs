@@ -19,6 +19,7 @@ namespace CoreSystem.Persistent
         }
 
         [Header("Scene")]
+        [SerializeField] private string UIScene = "UI";
         [SerializeField] private string mainMenuScene = "Main Menu";
 
         private void Awake()
@@ -29,8 +30,29 @@ namespace CoreSystem.Persistent
         private void Start()
         {
             //SceneManager.LoadScene(mainMenuScene, LoadSceneMode.Additive);
+            LoadUIScene();
             LoadMainMenu();
         }
+
+        #region UI
+        private void LoadUIScene()
+        {
+            StartCoroutine(LoadUISceneAsync());
+        }
+
+        private IEnumerator LoadUISceneAsync()
+        {
+            AsyncOperation op = SceneManager.LoadSceneAsync(UIScene, LoadSceneMode.Additive);
+            while (!op.isDone)
+                yield return null;
+            Scene scene = SceneManager.GetSceneByName(UIScene);
+            SceneManager.SetActiveScene(scene);
+        }
+
+
+        #endregion UI
+
+        #region Main Menu
 
         public void LoadMainMenu()
         {
@@ -47,6 +69,8 @@ namespace CoreSystem.Persistent
             Scene scene = SceneManager.GetSceneByName(mainMenuScene);
             SceneManager.SetActiveScene(scene);
         }
+
+        #endregion Main Menu
     }
 
 }

@@ -1,10 +1,9 @@
-using CoreSystem.Configuration;
 using CoreSystem.Data;
 using CoreSystem.Persistent;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CoreSystem.MainMenu
+namespace CoreSystem.UIPersistent
 {
     public class Setting : MonoBehaviour
     {
@@ -21,7 +20,6 @@ namespace CoreSystem.MainMenu
             Instance = this;
         }
 
-        private GameConfiguration configuration;
         private GameDataService dataService;
 
         private void Awake()
@@ -31,7 +29,6 @@ namespace CoreSystem.MainMenu
 
         private void Start()
         {
-            configuration = GameConfiguration.Instance;
             dataService = GameDataService.Instance;
             loadSetting();
         }
@@ -64,53 +61,91 @@ namespace CoreSystem.MainMenu
         #region sound
         public void setMasterVolume(Slider slider)
         {
-            configuration.setMasterVolume(slider.value);
+            SoundData data = dataService.getSound();
+            if (data != null)
+            {
+                data.masterVolume = slider.value;
+            }
         }
 
         public void setMuteMaster(Toggle toggle)
         {
-            configuration.setMuteMaster(toggle.isOn);
+            SoundData data = dataService.getSound();
+            if (data != null)
+            {
+                data.muteMaster = toggle.isOn;
+            }
         }
 
         public void setMusicVolume(Slider slider)
         {
-            configuration.setMusicVolume(slider.value);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.musicVolume = slider.value;
+            }
         }
         public void setMuteMusic(Toggle toggle)
         {
-            configuration.setMuteMusic(toggle.isOn);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.muteMusic = toggle.isOn;
+            }
         }
 
         public void setSFXVolume(Slider slider)
         {
-            configuration.setSFXVolume(slider.value);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.SFXVolume = slider.value;
+            }
         }
         public void setMuteSFX(Toggle toggle)
         {
-            configuration.setMuteSFX(toggle.isOn);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.muteSFX = toggle.isOn;
+            }
         }
 
         public void setUIVolume(Slider slider)
         {
-            configuration.setUIVolume(slider.value);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.UIVolume = slider.value;
+            }
         }
         public void setMuteUI(Toggle toggle)
         {
-            configuration.setMuteUI(toggle.isOn);
+            SoundData data = dataService.getSound();
+            if(data != null)
+            {
+                data.muteUI = toggle.isOn;
+            }
         }
 
         public void setAmbientVolume(Slider slider)
         {
-            configuration.setAmbientVolume(slider.value);
+            SoundData data = dataService.getSound();
+            if (data != null)
+            {
+                data.ambientVolume = slider.value;
+            }
         }
 
         public void setMuteAmbient(Toggle toggle)
         {
-            configuration.setMuteAmbient(toggle.isOn);
+            SoundData data = dataService.getSound();
+            if (data != null)
+            {
+                data.muteAmbient = toggle.isOn;
+            }
         }
         #endregion sound
-
-
 
         #endregion set value
 

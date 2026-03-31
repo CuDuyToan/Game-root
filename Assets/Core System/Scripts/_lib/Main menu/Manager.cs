@@ -91,7 +91,7 @@ namespace CoreSystem.MainMenu
         #endregion preview map
 
         #region load slots
-        [SerializeField] private List<SlotSetup> slotSetups;
+        [SerializeField] private List<SlotUI> slotSetups;
         public void LoadSlotData()
         {
             if (dataService == null) return;
@@ -101,6 +101,8 @@ namespace CoreSystem.MainMenu
                 MetaData data = dataService.GetSlotWorld(slot);
                 if (data == null) continue;
                 item.Setup(data);
+
+                slot++;
             }
         }
         #endregion load slots

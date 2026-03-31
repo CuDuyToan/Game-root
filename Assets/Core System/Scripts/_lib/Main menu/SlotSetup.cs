@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 namespace CoreSystem.MainMenu
 {
-    public class SlotSetup : MonoBehaviour
+    public class SlotUI : MonoBehaviour
     {
-        private bool hasData = false;
+        public bool hasData = false;
+        private int slotIndex = -1;
+        public int SlotIndex => slotIndex;
         [SerializeField] private TextMeshProUGUI characterName;
         [SerializeField] private Image characterImg;
         [SerializeField] private TextMeshProUGUI level;
@@ -17,6 +19,7 @@ namespace CoreSystem.MainMenu
         {
             if (data == null) return;
             hasData = true;
+            slotIndex = data.slot;
             this.characterName.text = data.characterName;
             //this.characterImg.sprite = data.image;
             this.level.text = $"Level:{data.level}.";
