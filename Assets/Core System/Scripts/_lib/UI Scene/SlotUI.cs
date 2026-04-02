@@ -3,13 +3,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace CoreSystem.MainMenu
+namespace CoreSystem.UIPersistent
 {
     public class SlotUI : MonoBehaviour
     {
         public bool hasData = false;
-        [SerializeField] private int slotIndex = -1;
-        public int SlotIndex => slotIndex;
         [SerializeField] private TextMeshProUGUI characterName;
         [SerializeField] private Image characterImg;
         [SerializeField] private TextMeshProUGUI level;

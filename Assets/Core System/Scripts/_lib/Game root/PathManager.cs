@@ -1,39 +1,38 @@
 using System.IO;
 using UnityEngine;
 
-public class PathManager :MonoBehaviour
+namespace CoreSystem.Persistent
 {
-    public static PathManager Instance { get; private set; }
-
-    private void setSingleton()
+    public class PathManager : MonoBehaviour
     {
-        if (Instance != null && Instance != this)
+        public static PathManager Instance { get; private set; }
+
+        private void setSingleton()
         {
-            Destroy(gameObject);
-            return;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
         }
 
-        Instance = this;
+        private void Awake()
+        {
+            setSingleton();
+            rootPath = Application.persistentDataPath;
+        }
+
+        [Header("Root")]
+        [SerializeField] private string rootPath;
+        [Header("Config")]
+        [SerializeField] private string configDataPath = "Configuration";
+        public string ConfigDataPath => Path.Combine(rootPath, configDataPath);
+        [Header("Save Game")]
+        [SerializeField] private string saveGameDataPath = "Save Game";
+        public string SaveGameDataPath => Path.Combine(rootPath, saveGameDataPath);
     }
 
-    private void Awake()
-    {
-        setSingleton();
-        rootPath = Application.persistentDataPath;
-    }
-
-    [Header("Root")]
-    [SerializeField] private string rootPath;
-    [Header("Config")]
-    [SerializeField] private string configDataPath = "Configuration";
-    public string ConfigDataPath => Path.Combine(rootPath, configDataPath);
-    [Header("Save Game")]
-    [SerializeField] private string saveGameDataPath = "Save Game";
-    public string SaveGameDataPath => Path.Combine(rootPath, saveGameDataPath);
-
-    private void Start()
-    {
-
-
-    }
 }
+

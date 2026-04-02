@@ -39,12 +39,17 @@ namespace CoreSystem.Persistent
         private ConfigData configData;
         public ConfigData ConfigData => configData;
 
+        /// <summary>
+        /// Read config data from the file and save it in cache
+        /// </summary>
         private void LoadConfigData()
         {
             string path = Path.Combine(PathManager.Instance.ConfigDataPath, "Config.json");
             configData = FileService.LoadOrCreate<ConfigData>(path);
         }
-
+        /// <summary>
+        /// save config data using cache data
+        /// </summary>
         public void SaveConfigData()
         {
             if (configData == null) LoadConfigData();
@@ -56,6 +61,10 @@ namespace CoreSystem.Persistent
         #region slot world
         private Dictionary<int, MetaData> metaDatas = new Dictionary<int, MetaData>();
         public Dictionary<int, MetaData> MetaDatas => metaDatas;
+        /// <summary>
+        /// Read meta files from the folders (save slots). If no save slot is found, skip; if found, read the metadata.json file and save the data into the cache.
+        /// if it's first time using default
+        /// </summary>
         private void LoadMetaData()
         {
             string saveGamePath = PathManager.Instance.SaveGameDataPath;
@@ -103,14 +112,16 @@ namespace CoreSystem.Persistent
             return null;
         }
 
-        public int addSaveSlot(MetaData meta)
+        public int addSlotSave(MetaData meta)
         {
             if(metaDatas.Count < 3)
             {
-                int slotEmpty = getSlotEmpty();
-                if (metaDatas.TryAdd(slotEmpty, meta))
+                int slot = getSlotEmpty();
+                if (metaDatas.TryAdd(slot, meta))
                 {
-                    return slotEmpty;
+                    string path = Path.Combine(PathManager.Instance.SaveGameDataPath, $"Save{slot}", "metadata.json");
+                    FileService.SaveJsonFile<MetaData>(path, getSaveSlot(slot));
+                    return slot;
                 }
             }
             return -1;
@@ -125,7 +136,10 @@ namespace CoreSystem.Persistent
             }
             return -1;
         }
-
+        /// <summary>
+        /// delete saveslot in cache and delete save slot in save game folder
+        /// </summary>
+        /// <param name="slot"></param>
         public void DeleteSaveGame(int slot)
         {
             if (metaDatas.TryGetValue(slot, out MetaData metaData))
@@ -138,7 +152,6 @@ namespace CoreSystem.Persistent
 
         public void SaveGame(int slot)
         {
-            if (metaDatas == null) return;
             string path = Path.Combine(PathManager.Instance.SaveGameDataPath, $"Save{slot}", "metadata.json");
             FileService.SaveJsonFile<MetaData>(path, getSaveSlot(slot));
         }

@@ -33,7 +33,8 @@ namespace CoreSystem.UIPersistent
         private void OnEnable()
         {
             dataService = GameDataService.Instance;
-            LoadSlotData();
+            RefreshSlotData();
+            NewGameButtonActive();
         }
         public void Exit()
         {
@@ -49,9 +50,14 @@ namespace CoreSystem.UIPersistent
         #region Load game menu
         [Header("Load Game")]
         private int selectSlot = -1;
-        public void SelectSlot(SlotUI slot)
+        /// <summary>
+        /// Added to the button to select the slot to be mounted.
+        /// </summary>
+        /// <param name="slot"></param>
+        public void SelectSlot(int slot = -1)
         {
-            selectSlot = slot.SlotIndex;
+            selectSlot = slot;
+            NewGameSetup.Instance.slot = slot;
         }
 
         public void DeselectSlot()
@@ -59,11 +65,14 @@ namespace CoreSystem.UIPersistent
             selectSlot = -1;
         }
 
-
         #region preview map
-        [SerializeField] private Slider prreviewMap;
+        [SerializeField] private Slider previewMap;
         [SerializeField] private float speedSlider = 5f;
         private Coroutine currentRoutine;
+        /// <summary>
+        /// When selecting a slot, also preview the map image of
+        /// </summary>
+        /// <param name="active"></param>
         public void PreviewMap(bool active)
         {
             if (currentRoutine != null) return;
@@ -71,15 +80,15 @@ namespace CoreSystem.UIPersistent
             currentRoutine = StartCoroutine(SmoothMove(active ? 1 : 0));
         }
 
-        private IEnumerator SmoothMove(float target)
+        private IEnumerator SmoothMove(float target = 1)
         {
             while (true)
             {
-                prreviewMap.value = Mathf.MoveTowards(prreviewMap.value, target, speedSlider * Time.deltaTime);
+                previewMap.value = Mathf.MoveTowards(previewMap.value, target, speedSlider * Time.deltaTime);
 
-                if (Mathf.Abs(prreviewMap.value - target) < 0.01f)
+                if (Mathf.Abs(previewMap.value - target) < 0.01f)
                 {
-                    prreviewMap.value = target;
+                    previewMap.value = target;
                     currentRoutine = null;
                     yield break;
                 }
@@ -89,9 +98,12 @@ namespace CoreSystem.UIPersistent
         }
         #endregion preview map
 
-        #region load slots
+        #region refresh slots
         [SerializeField] private List<SlotUI> slotsUI;
-        public void LoadSlotData()
+        /// <summary>
+        /// Reload the button slots, used to download or update save slots.
+        /// </summary>
+        public void RefreshSlotData()
         {
             int slot = 0;
             foreach (var item in slotsUI)
@@ -108,43 +120,32 @@ namespace CoreSystem.UIPersistent
             }
         }
 
-        #endregion load slots
-
-        #region save game
-
-        public void SaveGame()
-        {
-            dataService.SaveGame(selectSlot);
-        }
-
-        #endregion save game
+        #endregion refresh slots
 
         #region new game
-        [Header("New game")]
-        [SerializeField] private string newCharacterName;
 
         public void SetCharacterName(string name)
         {
-            newCharacterName = name;
-        }
-
-        public void NewGame()
-        {
-            if(newCharacterName.Length < 4)
+            if (name.Length < 4)
             {
-                Debug.LogWarning("Character name must be at least 4 characters long.");
+                Debug.Log("Character name must be at least 4 characters long.");
                 return;
             }
 
-            selectSlot = dataService.addSaveSlot(new MetaData()
-            {
-                characterName = this.newCharacterName,
-            });
+            NewGameSetup.Instance.SetCharacterName(name);
+        }
+
+        public void Create()
+        {
+            NewGameSetup.Instance.Create();
         }
         #endregion new game
 
         #region active buttons
         [SerializeField] private List<GameObject> newGameButtons;
+        /// <summary>
+        /// If there are no more available slots to add, the button will not be displayed.
+        /// </summary>
         public void NewGameButtonActive()
         {
             bool active = false;
@@ -163,7 +164,8 @@ namespace CoreSystem.UIPersistent
         public void DeleteSaveGame()
         {
             dataService.DeleteSaveGame(selectSlot);
-            LoadSlotData();
+            RefreshSlotData();
+            NewGameButtonActive();
         }
         #endregion delete game
 
