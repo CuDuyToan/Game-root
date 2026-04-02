@@ -3,6 +3,7 @@ using CoreSystem.Data;
 using CoreSystem.MainMenu;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,8 +23,6 @@ namespace CoreSystem.Persistent
             Instance = this;
         }
 
-        private FileService fileService;
-
         private void Awake()
         {
             setSingleton();
@@ -31,100 +30,117 @@ namespace CoreSystem.Persistent
 
         private void Start()
         {
-            fileService = FileService.Instance;
             LoadConfigData();
-            LoadSlotData();
+            LoadMetaData();
         }
 
 
         #region config
         private ConfigData configData;
+        public ConfigData ConfigData => configData;
 
         private void LoadConfigData()
         {
-            configData = fileService.LoadConfig();
-            if(configData == null) configData = new ConfigData();
+            string path = Path.Combine(PathManager.Instance.ConfigDataPath, "Config.json");
+            configData = FileService.LoadOrCreate<ConfigData>(path);
         }
 
         public void SaveConfigData()
         {
             if (configData == null) LoadConfigData();
-            fileService.SaveConfig(configData);
-        }
-        public ConfigData GetConfigData()
-        {
-            if (configData == null) LoadConfigData();
-            return configData;
-        }
-
-
-        public SoundData getSound()
-        {
-            if (configData == null) LoadConfigData();
-            return configData.soundData;
-        }
-
-        public LayoutData getLayout()
-        {
-            if (configData == null) LoadConfigData();
-            return configData.layoutData;
+            string path = PathManager.Instance.ConfigDataPath;
+            FileService.SaveJsonFile(Path.Combine(path, "Config.json"), configData);
         }
         #endregion config
 
         #region slot world
-        private SlotsData slotData;
-        private readonly Dictionary<int, MetaData> slotWorlds = new Dictionary<int, MetaData>();
-        private void LoadSlotData()
+        private Dictionary<int, MetaData> metaDatas = new Dictionary<int, MetaData>();
+        public Dictionary<int, MetaData> MetaDatas => metaDatas;
+        private void LoadMetaData()
         {
-            slotData = fileService.LoadSlotsData();
+            string saveGamePath = PathManager.Instance.SaveGameDataPath;
+            var result = new Dictionary<int, MetaData>();
 
-            if (slotData == null)
+            if (!Directory.Exists(saveGamePath))
             {
-                slotData = new SlotsData();
-                slotData.slots = new List<MetaData>();
+                metaDatas = result;
+                return;
             }
-            int slotIndex = 0;
-            foreach (var item in slotData.slots)
+
+            var saveGameFolder = Directory.GetDirectories(saveGamePath);
+
+            foreach (var saveSlot in saveGameFolder)
             {
-                if (item == null) continue;
-                slotIndex++;
-                slotWorlds.TryAdd(slotIndex, item);
+                string folderName = Path.GetFileName(saveSlot);
+
+                var match = Regex.Match(folderName, @"\d+");
+
+                if (!match.Success)
+                    continue;
+
+                int slot = int.Parse(match.Value);
+
+                string path = Path.Combine(saveSlot, "metadata.json");
+
+                if (!File.Exists(path))
+                    continue;
+
+                var data = FileService.Load<MetaData>(path);
+
+                if (data != null)
+                    result[slot] = data;
             }
+
+            metaDatas = result;
         }
 
-        public MetaData GetSlotWorld(int slot)
+        public MetaData getSaveSlot(int slot)
         {
-            if (slotWorlds.TryGetValue(slot, out MetaData metaData))
+            if (metaDatas.TryGetValue(slot, out MetaData metaData))
             {
                 return metaData;
             }
             return null;
         }
 
-        public void NewGame(MetaData meta)
+        public int addSaveSlot(MetaData meta)
         {
-            if(slotData.slots.Count < 3)
+            if(metaDatas.Count < 3)
             {
-                meta.slot = slotData.slots.Count + 1;
-                slotData.slots.Add(meta);
-                slotWorlds.TryAdd(meta.slot, meta);
+                int slotEmpty = getSlotEmpty();
+                if (metaDatas.TryAdd(slotEmpty, meta))
+                {
+                    return slotEmpty;
+                }
+            }
+            return -1;
+        }
+
+        public int getSlotEmpty()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                if (!metaDatas.ContainsKey(i))
+                    return i;
+            }
+            return -1;
+        }
+
+        public void DeleteSaveGame(int slot)
+        {
+            if (metaDatas.TryGetValue(slot, out MetaData metaData))
+            {
+                string path = Path.Combine(PathManager.Instance.SaveGameDataPath, $"Save{slot}");
+                metaDatas.Remove(slot);
+                FileService.DeleteFolder(path);
             }
         }
 
-        public void DeleteGame(int slot)
+        public void SaveGame(int slot)
         {
-            if (slotWorlds.TryGetValue(slot, out MetaData metaData))
-            {
-                slotData.slots.Remove(metaData);
-                slotWorlds.Remove(slot);
-                fileService.DeleteSlot(slot-1);
-            }
-        }
-
-        public void SaveSlotData()
-        {
-            if (slotData == null) return;
-            fileService.SaveSlotWorld(slotData);
+            if (metaDatas == null) return;
+            string path = Path.Combine(PathManager.Instance.SaveGameDataPath, $"Save{slot}", "metadata.json");
+            FileService.SaveJsonFile<MetaData>(path, getSaveSlot(slot));
         }
         #endregion slot world
 

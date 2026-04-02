@@ -34,7 +34,6 @@ namespace CoreSystem.MainMenu
         {
             dataService = GameDataService.Instance;
             LoadSlotData();
-            if (dataService) dataService.SaveSlotData();
         }
 
         public void Exit()
@@ -98,7 +97,7 @@ namespace CoreSystem.MainMenu
             int slot = 1;
             foreach (var item in slotSetups)
             {
-                MetaData data = dataService.GetSlotWorld(slot);
+                MetaData data = dataService.getSaveSlot(slot);
                 if (data == null) continue;
                 item.Setup(data);
 

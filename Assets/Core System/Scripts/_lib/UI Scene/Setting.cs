@@ -27,6 +27,8 @@ namespace CoreSystem.UIPersistent
             setSingleton();
         }
 
+        private ConfigData configData => dataService.ConfigData;
+
         private void Start()
         {
             dataService = GameDataService.Instance;
@@ -41,12 +43,12 @@ namespace CoreSystem.UIPersistent
         private void loadSetting()
         {
             if (!dataService) return;
-            loadConfigData(dataService.GetConfigData());
+            loadConfigData();
         }
 
-        private void loadConfigData(ConfigData config)
+        private void loadConfigData()
         {
-            SoundData soundConfig = config.soundData;
+            SoundData soundConfig = configData.soundData;
 
 
             loadMasterValue(soundConfig.masterVolume, soundConfig.muteMaster);
@@ -61,7 +63,7 @@ namespace CoreSystem.UIPersistent
         #region sound
         public void setMasterVolume(Slider slider)
         {
-            SoundData data = dataService.getSound();
+            SoundData data = configData.soundData;
             if (data != null)
             {
                 data.masterVolume = slider.value;
@@ -70,7 +72,7 @@ namespace CoreSystem.UIPersistent
 
         public void setMuteMaster(Toggle toggle)
         {
-            SoundData data = dataService.getSound();
+            SoundData data = configData.soundData;
             if (data != null)
             {
                 data.muteMaster = toggle.isOn;
@@ -79,7 +81,7 @@ namespace CoreSystem.UIPersistent
 
         public void setMusicVolume(Slider slider)
         {
-            SoundData data = dataService.getSound();
+            SoundData data = configData.soundData;
             if(data != null)
             {
                 data.musicVolume = slider.value;
@@ -87,8 +89,8 @@ namespace CoreSystem.UIPersistent
         }
         public void setMuteMusic(Toggle toggle)
         {
-            SoundData data = dataService.getSound();
-            if(data != null)
+            SoundData data = configData.soundData;
+            if (data != null)
             {
                 data.muteMusic = toggle.isOn;
             }
@@ -96,16 +98,16 @@ namespace CoreSystem.UIPersistent
 
         public void setSFXVolume(Slider slider)
         {
-            SoundData data = dataService.getSound();
-            if(data != null)
+            SoundData data = configData.soundData;
+            if (data != null)
             {
                 data.SFXVolume = slider.value;
             }
         }
         public void setMuteSFX(Toggle toggle)
         {
-            SoundData data = dataService.getSound();
-            if(data != null)
+            SoundData data = configData.soundData;
+            if (data != null)
             {
                 data.muteSFX = toggle.isOn;
             }
@@ -113,16 +115,16 @@ namespace CoreSystem.UIPersistent
 
         public void setUIVolume(Slider slider)
         {
-            SoundData data = dataService.getSound();
-            if(data != null)
+            SoundData data = configData.soundData;
+            if (data != null)
             {
                 data.UIVolume = slider.value;
             }
         }
         public void setMuteUI(Toggle toggle)
         {
-            SoundData data = dataService.getSound();
-            if(data != null)
+            SoundData data = configData.soundData;
+            if (data != null)
             {
                 data.muteUI = toggle.isOn;
             }
@@ -130,7 +132,7 @@ namespace CoreSystem.UIPersistent
 
         public void setAmbientVolume(Slider slider)
         {
-            SoundData data = dataService.getSound();
+            SoundData data = configData.soundData;
             if (data != null)
             {
                 data.ambientVolume = slider.value;
@@ -139,7 +141,7 @@ namespace CoreSystem.UIPersistent
 
         public void setMuteAmbient(Toggle toggle)
         {
-            SoundData data = dataService.getSound();
+            SoundData data = configData.soundData;
             if (data != null)
             {
                 data.muteAmbient = toggle.isOn;

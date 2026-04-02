@@ -7,7 +7,6 @@ namespace CoreSystem.Data
     [System.Serializable]
     public class MetaData
     {
-        public int slot = 0;
         public float playedTime = 0;
         public string characterName = "";
         public string character = "";
