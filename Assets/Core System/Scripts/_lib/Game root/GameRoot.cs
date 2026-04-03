@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -71,6 +72,17 @@ namespace CoreSystem.Persistent
         }
 
         #endregion Main Menu
+
+        public void Exit()
+        {
+            GameDataService.Instance.SaveConfigData();
+
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 
 }

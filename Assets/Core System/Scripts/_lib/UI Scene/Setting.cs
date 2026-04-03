@@ -20,29 +20,26 @@ namespace CoreSystem.UIPersistent
             Instance = this;
         }
 
-        private GameDataService dataService;
-
         private void Awake()
         {
             setSingleton();
         }
 
-        private ConfigData configData => dataService.ConfigData;
+        private ConfigData configData => GameDataService.Instance.ConfigData;
 
         private void Start()
         {
-            dataService = GameDataService.Instance;
             loadSetting();
         }
 
         public void saveSetting()
         {
-            dataService.SaveConfigData();
+            GameDataService.Instance.SaveConfigData();
         }
 
         private void loadSetting()
         {
-            if (!dataService) return;
+            if (!GameDataService.Instance) return;
             loadConfigData();
         }
 

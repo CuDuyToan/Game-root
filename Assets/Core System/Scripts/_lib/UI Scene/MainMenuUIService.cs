@@ -23,8 +23,6 @@ namespace CoreSystem.UIPersistent
             Instance = this;
         }
 
-        private GameDataService dataService;
-
         private void Awake()
         {
             setSingleton();
@@ -32,19 +30,13 @@ namespace CoreSystem.UIPersistent
 
         private void OnEnable()
         {
-            dataService = GameDataService.Instance;
             RefreshSlotData();
             NewGameButtonActive();
         }
+
         public void Exit()
         {
-            dataService.SaveConfigData();
-
-#if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            GameRoot.Instance.Exit();
         }
 
         #region Load game menu
@@ -109,7 +101,7 @@ namespace CoreSystem.UIPersistent
             foreach (var item in slotsUI)
             {
                 slot++;
-                MetaData data = dataService.getSaveSlot(slot);
+                MetaData data = GameDataService.Instance.getSaveSlot(slot);
                 if (data == null)
                 {
                     item.gameObject.SetActive(false);
@@ -149,7 +141,7 @@ namespace CoreSystem.UIPersistent
         public void NewGameButtonActive()
         {
             bool active = false;
-            if (dataService.getSlotEmpty() != -1)
+            if (GameDataService.Instance.getSlotEmpty() != -1)
             {
                 active = true;
             }
@@ -163,7 +155,7 @@ namespace CoreSystem.UIPersistent
         #region delete game
         public void DeleteSaveGame()
         {
-            dataService.DeleteSaveGame(selectSlot);
+            GameDataService.Instance.DeleteSaveGame(selectSlot);
             RefreshSlotData();
             NewGameButtonActive();
         }
