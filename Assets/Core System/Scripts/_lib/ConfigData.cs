@@ -1,6 +1,4 @@
-﻿using CoreSystem.Data;
-
-namespace CoreSystem
+﻿namespace CoreSystem.Data
 {
     public class ConfigData
     {
